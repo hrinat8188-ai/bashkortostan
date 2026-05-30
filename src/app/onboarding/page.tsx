@@ -168,7 +168,7 @@ export default function OnboardingPage() {
           })}
         </div>
         {answered && (
-          <button className="btn-primary" onClick={nextQuestion} style={{ marginTop: 'auto', marginTop: 24, animation: 'slideUp 0.3s ease' }}>
+          <button className="btn-primary" onClick={nextQuestion} style={{  marginTop: 24, animation: 'slideUp 0.3s ease' }}>
             {qIndex + 1 >= PLACEMENT_QUESTIONS.length ? 'Посмотреть результат →' : 'Следующий вопрос →'}
           </button>
         )}
