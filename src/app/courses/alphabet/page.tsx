@@ -54,15 +54,11 @@ export default function AlphabetPage() {
 
   const filtered = filter === 'special' ? ALPHABET.filter(l => l.special) : ALPHABET
 
-  function speak(text: string) {
-    if ('speechSynthesis' in window) {
-      window.speechSynthesis.cancel()
-      const u = new SpeechSynthesisUtterance(text[0])
-      u.lang = 'ru-RU'
-      u.rate = 0.7
-      window.speechSynthesis.speak(u)
-    }
-    haptic('light')
+ function speak(text: string) {
+  haptic('light')
+  // Аудио будет добавлено позже
+  // Пока показываем транскрипцию
+}
   }
 
   return (
