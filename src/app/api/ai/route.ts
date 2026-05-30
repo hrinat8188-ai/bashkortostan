@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': 'x-api-key: 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',
+        'x-api-key': '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',
         'anthropic-version': '2023-06-01',
       },
       body: JSON.stringify({
