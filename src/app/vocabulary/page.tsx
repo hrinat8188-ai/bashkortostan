@@ -173,7 +173,7 @@ export default function VocabularyPage() {
               uv={userVocab.get(word.id)}
               onFavorite={() => toggleFavorite(word)}
               onAdd={() => addToReview(word)}
-              onSpeak={() => speak(word.bashkir)}
+              onSpeak={() => {}}
             />
           ))}
         </>
@@ -210,7 +210,7 @@ export default function VocabularyPage() {
                     {reviewWords[reviewIndex].transcription}
                   </div>
                 )}
-                <button onClick={() => speak(reviewWords[reviewIndex]?.bashkir ?? '')}
+    
                   style={{ background: 'var(--accent-light)', color: 'var(--accent)', border: 'none', borderRadius: 20, padding: '7px 16px', fontSize: 13, cursor: 'pointer' }}>
                   🔊 Слушать
                 </button>
@@ -307,7 +307,6 @@ function WordCard({ word, uv, onFavorite, onAdd, onSpeak }: {
               style={{ background: 'none', border: 'none', fontSize: 20, cursor: 'pointer', padding: 4, color: 'var(--text-2)' }}>
               🔊
             </button>
-            <button onClick={e => { e.stopPropagation(); onFavorite() }}
               style={{ background: 'none', border: 'none', fontSize: 20, cursor: 'pointer', padding: 4 }}>
               {uv?.is_favorite ? '❤️' : '🤍'}
             </button>
