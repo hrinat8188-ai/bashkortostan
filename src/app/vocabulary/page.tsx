@@ -113,12 +113,10 @@ export default function VocabularyPage() {
     }
   }
 
-  function speak(text: string) {
-    if ('speechSynthesis' in window) {
-      window.speechSynthesis.cancel()
-      const u = new SpeechSynthesisUtterance(text)
-      u.lang = 'ru-RU'; u.rate = 0.8
-      window.speechSynthesis.speak(u)
+ function speak(text: string) {
+  haptic('light')
+  alert('Аудио: ' + text + '\nТранскрипция доступна в карточке слова')
+}
     }
   }
 
