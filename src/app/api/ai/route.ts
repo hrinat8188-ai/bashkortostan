@@ -22,7 +22,10 @@ export async function POST(req: NextRequest) {
         ],
       }),
     })
-
+if (!response.ok) {
+  const errText = await response.text()
+  return NextResponse.json({ reply: `Ошибка API: ${response.status} - ${errText}` })
+}
     const data = await response.json()
     const reply = data.choices?.[0]?.message?.content ?? 'Извините, попробуй ещё раз.'
     return NextResponse.json({ reply })
