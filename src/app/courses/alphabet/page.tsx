@@ -55,11 +55,10 @@ export default function AlphabetPage() {
   const filtered = filter === 'special' ? ALPHABET.filter(l => l.special) : ALPHABET
 
  function speak(text: string) {
-  haptic('light')
-  // Аудио будет добавлено позже
-  // Пока показываем транскрипцию
-}
+    haptic('light')
   }
+
+  return (
 
   return (
     <div className="safe-bottom">
