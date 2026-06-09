@@ -74,7 +74,7 @@ export default function CoursesPage() {
 
       {courses.map((course, idx) => {
         const meta = LEVEL_META[course.level] ?? LEVEL_META.A0
-        const isUnlocked = idx <= userLevelIndex + 1
+        const isUnlocked = true
         const isActive = course.level === user?.current_level
         const completedCount = progress[course.id] ?? 0
         const pct = course.total_lessons > 0
