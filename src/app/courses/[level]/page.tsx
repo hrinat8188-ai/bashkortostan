@@ -113,7 +113,7 @@ export default function LevelPage() {
 
             {(mod.lessons ?? []).sort((a, b) => a.order_index - b.order_index).map((lesson, idx) => {
               const done = completedLessons.has(lesson.id)
-              const isLocked = lesson.is_premium && !user?.is_premium
+              const isLocked = false
               const prevDone = idx === 0 || completedLessons.has(mod.lessons[idx - 1]?.id)
               const accessible = !isLocked && (idx === 0 || prevDone || done)
 
