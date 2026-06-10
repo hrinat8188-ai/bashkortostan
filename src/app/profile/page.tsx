@@ -159,7 +159,7 @@ export default function ProfilePage() {
       </div>
 
       {/* Подписка */}
-      {!user.is_premium && (
+      {false && (
         <>
           <div className="section-title">Premium</div>
           <div style={{
