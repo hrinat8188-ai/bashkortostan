@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
         messages: [
           {
             role: 'system',
-            content: content: `Ты — преподаватель башкирского языка. Уровень студента: ${userLevel ?? 'A0'}.
+            content: `Ты — преподаватель башкирского языка. Уровень студента: ${userLevel ?? 'A0'}.
 
 СТРОГИЕ ПРАВИЛА:
 - Отвечай ТОЛЬКО на вопросы о башкирском языке
