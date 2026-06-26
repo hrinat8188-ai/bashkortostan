@@ -3,29 +3,55 @@ import { NextRequest, NextResponse } from 'next/server'
 export async function POST(req: NextRequest) {
   try {
     const { lessonTitle, level, count } = await req.json()
-    const prompt = `Ты эксперт по башкирскому языку. Создай ${count} упражнений с выбором ответа для урока "${lessonTitle}" уровня ${level}.
-Каждое упражнение: вопрос на русском, 4 варианта (1 правильный). Используй реальные башкирские слова.
-Отвечай ТОЛЬКО JSON без лишнего текста:
-{"exercises":[{"question":"вопрос","answers":[{"text":"правильный","is_correct":true},{"text":"неправильный","is_correct":false},{"text":"неправильный","is_correct":false},{"text":"неправильный","is_correct":false}],"explanation":"объяснение"}]}`
+
+    const prompt = `Create ${count} multiple choice exercises about Bashkir language for lesson "${lessonTitle}" level ${level}. Answer in Russian language.
+
+Return ONLY a JSON array, no other text:
+[
+  {
+    "question": "Question in Russian",
+    "answers": [
+      {"text": "Correct answer", "is_correct": true},
+      {"text": "Wrong answer 1", "is_correct": false},
+      {"text": "Wrong answer 2", "is_correct": false},
+      {"text": "Wrong answer 3", "is_correct": false}
+    ],
+    "explanation": "Brief explanation in Russian"
+  }
+]`
 
     const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${process.env.GROQ_API_KEY}` },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${process.env.GROQ_API_KEY}`,
+      },
       body: JSON.stringify({
-        model: 'meta-llama/llama-4-scout-17b-16e-instruct',',
-        max_tokens: 4000,
-        temperature: 0.7,
+        model: 'meta-llama/llama-4-scout-17b-16e-instruct',
+        max_tokens: 3000,
+        temperature: 0.5,
         messages: [{ role: 'user', content: prompt }],
       }),
     })
+
+    if (!response.ok) {
+      const err = await response.text()
+      console.error('Groq error:', err)
+      return NextResponse.json({ exercises: [] }, { status: 500 })
+    }
+
     const data = await response.json()
     const text = data.choices?.[0]?.message?.content ?? ''
-    const jsonMatch = text.match(/\{[\s\S]*\}/)
-    if (!jsonMatch) throw new Error('No JSON')
-    const parsed = JSON.parse(jsonMatch[0])
-    return NextResponse.json(parsed)
+    const jsonMatch = text.match(/\[[\s\S]*\]/)
+    if (!jsonMatch) {
+      console.error('No JSON found:', text.substring(0, 200))
+      return NextResponse.json({ exercises: [] }, { status: 500 })
+    }
+
+    const exercises = JSON.parse(jsonMatch[0])
+    return NextResponse.json({ exercises })
   } catch (error) {
-    console.error(error)
+    console.error('Generate error:', error)
     return NextResponse.json({ exercises: [] }, { status: 500 })
   }
 }
