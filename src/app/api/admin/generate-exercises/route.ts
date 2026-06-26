@@ -4,41 +4,7 @@ export async function POST(req: NextRequest) {
   try {
     const { lessonTitle, level, count } = await req.json()
 
-   const prompt = `Ты эксперт по башкирскому языку. Создай ${count} упражнений для урока "${lessonTitle}" уровня ${level}.
-
-Правила:
-- Вопросы на русском языке
-- Варианты ответов содержат башкирские слова/фразы (или перевод с башкирского на русский)
-- Используй реальные башкирские слова с правильным написанием
-- Объяснение на русском с транскрипцией башкирского слова
-
-Верни ТОЛЬКО JSON массив без лишнего текста:
-[
-  {
-    "question": "Как по-башкирски 'семья'?",
-    "answers": [
-      {"text": "Ғаилә", "is_correct": true},
-      {"text": "Дуҫ", "is_correct": false},
-      {"text": "Өй", "is_correct": false},
-      {"text": "Ҡала", "is_correct": false}
-    ],
-    "explanation": "Ғаилә [ğaɪ̯lə] — семья по-башкирски"
-  }
-]`
-
-Return ONLY a JSON array, no other text:
-[
-  {
-    "question": "Question in Russian",
-    "answers": [
-      {"text": "Correct answer", "is_correct": true},
-      {"text": "Wrong answer 1", "is_correct": false},
-      {"text": "Wrong answer 2", "is_correct": false},
-      {"text": "Wrong answer 3", "is_correct": false}
-    ],
-    "explanation": "Brief explanation in Russian"
-  }
-]`
+    const msg = `Ты эксперт по башкирскому языку. Создай ${count} упражнений для урока по теме "${lessonTitle}" уровня ${level}. Вопросы на русском, ответы содержат башкирские слова. Верни ТОЛЬКО JSON массив: [{"question":"вопрос","answers":[{"text":"башкирское слово","is_correct":true},{"text":"неверно1","is_correct":false},{"text":"неверно2","is_correct":false},{"text":"неверно3","is_correct":false}],"explanation":"объяснение"}]`
 
     const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
@@ -50,7 +16,7 @@ Return ONLY a JSON array, no other text:
         model: 'meta-llama/llama-4-scout-17b-16e-instruct',
         max_tokens: 3000,
         temperature: 0.5,
-        messages: [{ role: 'user', content: prompt }],
+        messages: [{ role: 'user', content: msg }],
       }),
     })
 
@@ -64,7 +30,6 @@ Return ONLY a JSON array, no other text:
     const text = data.choices?.[0]?.message?.content ?? ''
     const jsonMatch = text.match(/\[[\s\S]*\]/)
     if (!jsonMatch) {
-      console.error('No JSON found:', text.substring(0, 200))
       return NextResponse.json({ exercises: [] }, { status: 500 })
     }
 
