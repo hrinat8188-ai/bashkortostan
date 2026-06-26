@@ -4,7 +4,27 @@ export async function POST(req: NextRequest) {
   try {
     const { lessonTitle, level, count } = await req.json()
 
-    const prompt = `Create ${count} multiple choice exercises about Bashkir language for lesson "${lessonTitle}" level ${level}. Answer in Russian language.
+   const prompt = `Ты эксперт по башкирскому языку. Создай ${count} упражнений для урока "${lessonTitle}" уровня ${level}.
+
+Правила:
+- Вопросы на русском языке
+- Варианты ответов содержат башкирские слова/фразы (или перевод с башкирского на русский)
+- Используй реальные башкирские слова с правильным написанием
+- Объяснение на русском с транскрипцией башкирского слова
+
+Верни ТОЛЬКО JSON массив без лишнего текста:
+[
+  {
+    "question": "Как по-башкирски 'семья'?",
+    "answers": [
+      {"text": "Ғаилә", "is_correct": true},
+      {"text": "Дуҫ", "is_correct": false},
+      {"text": "Өй", "is_correct": false},
+      {"text": "Ҡала", "is_correct": false}
+    ],
+    "explanation": "Ғаилә [ğaɪ̯lə] — семья по-башкирски"
+  }
+]`
 
 Return ONLY a JSON array, no other text:
 [
