@@ -10,7 +10,7 @@ import { supabase } from '@/lib/supabase'
 const DAYS = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс']
 
 export default function HomePage() {
-  const { user, loading } = useUser()
+  const { user, loading, error } = useUser()
   const { haptic } = useTelegram()
   const [streakDates, setStreakDates] = useState<string[]>([])
   const [reviewCount, setReviewCount] = useState(0)
@@ -54,6 +54,23 @@ export default function HomePage() {
         <div style={{ textAlign: 'center' }}>
           <div style={{ fontSize: 48, marginBottom: 16 }}>🐴</div>
           <div style={{ color: 'var(--text-2)', fontSize: 14 }}>Загружаем…</div>
+        </div>
+      </div>
+    )
+  }
+
+  if (error || !user) {
+    return (
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', padding: '0 32px' }}>
+        <div style={{ textAlign: 'center' }}>
+          <div style={{ fontSize: 48, marginBottom: 16 }}>😔</div>
+          <div style={{ fontSize: 16, fontWeight: 500, marginBottom: 8 }}>Не удалось загрузить профиль</div>
+          <div style={{ color: 'var(--text-2)', fontSize: 14, marginBottom: 20 }}>
+            Проверь подключение к интернету и попробуй снова
+          </div>
+          <button className="btn-primary" onClick={() => window.location.reload()}>
+            🔄 Попробовать снова
+          </button>
         </div>
       </div>
     )

@@ -65,21 +65,11 @@ export default function AIPage() {
     }
   }
 
-  const isPremium = user?.is_premium
-  const msgCount = messages.filter(m => m.role === 'user').length
-  const freeLimit = 10
-  const limitReached = !isPremium && msgCount >= freeLimit
-
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
       <TopBar
         title="AI-помощник"
         subtitle="Башкирский за 30 секунд"
-        right={
-          <span className={`badge ${isPremium ? 'badge-gold' : 'badge-green'}`}>
-            {isPremium ? 'Premium' : `${freeLimit - Math.min(msgCount, freeLimit)} / ${freeLimit}`}
-          </span>
-        }
       />
       <div style={{ flex: 1, overflowY: 'auto', padding: '12px 16px', display: 'flex', flexDirection: 'column', gap: 12 }}>
         {messages.map((msg, i) => (
@@ -128,27 +118,14 @@ export default function AIPage() {
         )}
         <div ref={bottomRef} />
       </div>
-      {limitReached && (
-        <div style={{
-          margin: '0 16px 8px', padding: '12px 16px',
-          background: 'linear-gradient(135deg, #26215C, #534AB7)',
-          borderRadius: 12, color: 'white', textAlign: 'center',
-        }}>
-          <div style={{ fontWeight: 500, marginBottom: 4 }}>👑 Лимит исчерпан</div>
-          <div style={{ fontSize: 12, opacity: 0.85, marginBottom: 10 }}>Перейди на Premium для безлимитного общения</div>
-          <button style={{ background: 'white', color: '#534AB7', border: 'none', borderRadius: 20, padding: '8px 20px', fontSize: 13, fontWeight: 500, cursor: 'pointer' }}>
-            Получить Premium
-          </button>
-        </div>
-      )}
       <div style={{ display: 'flex', gap: 8, padding: '10px 16px', paddingBottom: '80px', background: 'var(--bg)', borderTop: '0.5px solid var(--border)' }}>
         <input
           ref={inputRef}
           value={input}
           onChange={e => setInput(e.target.value)}
           onKeyDown={e => e.key === 'Enter' && !e.shiftKey && sendMessage()}
-          placeholder={limitReached ? 'Нужен Premium…' : 'Спроси на русском или башкирском…'}
-          disabled={limitReached || loading}
+          placeholder="Спроси на русском или башкирском…"
+          disabled={loading}
           style={{
             flex: 1, padding: '10px 14px',
             borderRadius: 'var(--radius-pill)',
@@ -159,12 +136,12 @@ export default function AIPage() {
         />
         <button
           onClick={() => sendMessage()}
-          disabled={!input.trim() || loading || limitReached}
+          disabled={!input.trim() || loading}
           style={{
             width: 40, height: 40, borderRadius: '50%',
-            background: input.trim() && !limitReached ? 'var(--accent)' : 'var(--surface)',
+            background: input.trim() ? 'var(--accent)' : 'var(--surface)',
             border: '0.5px solid var(--border)',
-            color: input.trim() && !limitReached ? 'white' : 'var(--text-3)',
+            color: input.trim() ? 'white' : 'var(--text-3)',
             fontSize: 18, cursor: 'pointer',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             flexShrink: 0,

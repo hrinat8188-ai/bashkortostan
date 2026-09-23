@@ -158,50 +158,6 @@ export default function ProfilePage() {
         </button>
       </div>
 
-      {/* Подписка */}
-      {false && (
-        <>
-          <div className="section-title">Premium</div>
-          <div style={{
-            margin: '0 16px',
-            background: 'linear-gradient(135deg, #26215C, #534AB7)',
-            borderRadius: 'var(--radius-card)', padding: '20px',
-            color: 'white',
-          }}>
-            <div className="badge" style={{ background: 'rgba(255,255,255,0.2)', color: 'white', marginBottom: 10 }}>
-              👑 Premium
-            </div>
-            <div style={{ fontSize: 17, fontWeight: 500, marginBottom: 8 }}>
-              Разблокируй полный курс
-            </div>
-            <div style={{ fontSize: 13, opacity: 0.85, lineHeight: 1.6, marginBottom: 16 }}>
-              ✅ AI-помощник без ограничений{'\n'}
-              ✅ Все уровни A0 → C1{'\n'}
-              ✅ Разговорный тренажёр{'\n'}
-              ✅ Офлайн-режим{'\n'}
-              ✅ Расширенная аналитика
-            </div>
-            <button style={{
-              background: 'white', color: '#534AB7',
-              border: 'none', borderRadius: 'var(--radius-pill)',
-              padding: '12px 24px', fontSize: 15, fontWeight: 500, cursor: 'pointer', width: '100%',
-            }}>
-              199 ₽ / месяц · 7 дней бесплатно
-            </button>
-          </div>
-        </>
-      )}
-
-      {user.is_premium && (
-        <div style={{ margin: '12px 16px 0', padding: '14px 16px', background: 'var(--gold-light)', borderRadius: 'var(--radius-card)', display: 'flex', alignItems: 'center', gap: 12 }}>
-          <span style={{ fontSize: 28 }}>👑</span>
-          <div>
-            <div style={{ fontSize: 14, fontWeight: 500, color: '#7a4f0a' }}>Premium активен</div>
-            <div style={{ fontSize: 12, color: 'var(--gold)' }}>Все функции разблокированы</div>
-          </div>
-        </div>
-      )}
-
       <div style={{ height: 24 }} />
       <BottomNav />
     </div>
