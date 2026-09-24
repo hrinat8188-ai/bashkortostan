@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 
+export const dynamic = 'force-dynamic'
+
 // Слова, которые ранее были подтверждены как неверные или несуществующие
 // во время ручной проверки базы (сентябрь 2026). Если появляются как
 // ПРАВИЛЬНЫЙ ответ — это почти наверняка та же старая ошибка вернулась.
