@@ -20,16 +20,22 @@ type Report = {
 export default function VerifyPage() {
   const [report, setReport] = useState<Report | null>(null)
   const [loading, setLoading] = useState(false)
+  const [errorMsg, setErrorMsg] = useState<string | null>(null)
 
   async function runCheck() {
     setLoading(true)
     setReport(null)
+    setErrorMsg(null)
     try {
       const res = await fetch('/api/admin/verify-content')
       const data = await res.json()
-      setReport(data)
-    } catch {
-      alert('Ошибка проверки')
+      if (!res.ok || data.error) {
+        setErrorMsg(data.error ?? `Сервер вернул код ${res.status}`)
+      } else {
+        setReport(data)
+      }
+    } catch (e: any) {
+      setErrorMsg('Не удалось связаться с сервером: ' + (e?.message ?? String(e)))
     } finally {
       setLoading(false)
     }
@@ -59,6 +65,12 @@ export default function VerifyPage() {
       }}>
         {loading ? 'Проверяю базу...' : '🔍 Запустить проверку'}
       </button>
+
+      {errorMsg && (
+        <div style={{ background: '#FCEBEB', border: '1px solid #E24B4A', borderRadius: 12, padding: '14px 16px', marginBottom: 20, color: '#A32D2D', fontSize: 14 }}>
+          <strong>Ошибка:</strong> {errorMsg}
+        </div>
+      )}
 
       {report && (
         <>
