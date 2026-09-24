@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 
 export const dynamic = 'force-dynamic'
+export const revalidate = 0
+export const fetchCache = 'force-no-store'
 
 // Слова, которые ранее были подтверждены как неверные или несуществующие
 // во время ручной проверки базы (сентябрь 2026). Если появляются как
@@ -135,6 +137,10 @@ export async function GET() {
       total_lessons: (allLessons ?? []).length,
       total_issues_found: issueCount,
       checked_at: new Date().toISOString(),
+    }, {
+      headers: {
+        'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
+      },
     })
   } catch (error: any) {
     console.error('Verify content error:', error)

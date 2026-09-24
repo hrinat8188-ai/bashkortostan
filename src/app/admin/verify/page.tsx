@@ -27,7 +27,7 @@ export default function VerifyPage() {
     setReport(null)
     setErrorMsg(null)
     try {
-      const res = await fetch('/api/admin/verify-content')
+      const res = await fetch('/api/admin/verify-content', { cache: 'no-store' })
       const data = await res.json()
       if (!res.ok || data.error) {
         setErrorMsg(data.error ?? `Сервер вернул код ${res.status}`)
